@@ -1,8 +1,0 @@
-attributes:
-  user: long
-  item: long
-  tag: string
-  timestamp: long
-derivations:
-  user: user
-  item: item
