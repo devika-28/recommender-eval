@@ -73,6 +73,21 @@ Since we are using 5-fold cross-validation, we have 5 values for each algorithm 
 
 **Hint:** If your plotting software makes it easy to include error bars, do so! However, to compute an error bar correctly, computing the standard error of the experimental runs is generally not sufficient.  It is better to compute the standard error over the individual user result values.  You can obtain these from the file `build/user-results.csv`.
 
+### Python alternative
+
+This repository also includes `python_eval.py`, which uses the Python LensKit package to generate a comparable `build/eval-results.csv`. It is a separate implementation, not a drop-in replacement for the Java LensKit 3.0-M2 evaluator: its user-user model uses LensKit's centered cosine KNN, and `TagContent` uses TF-IDF tag similarity as an approximation of the Java Lucene recommender. Therefore, its results may differ from the assignment's reference results.
+
+On Windows, run the evaluation from the repository directory:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-python-eval.txt
+.\.venv\Scripts\python.exe python_eval.py
+.\.venv\Scripts\python.exe plot_results.py
+```
+
+The default run uses five random holdout partitions, five held-out ratings per user, and neighborhood sizes from 5 to 100. The plot command saves images in `build/plots/`. Open `ExamplePython.ipynb` with the `.venv` Python interpreter to inspect and plot the generated CSV.
+
 ## Tuning User-User CF
 
 Next, let's add the user-user collaborative filter and tune its neighborhood size and normalization. We will test 2 variants of user-user (one averaging raw ratings, the other averaging mean-centered ratings) across a range of neighborhood sizes.
